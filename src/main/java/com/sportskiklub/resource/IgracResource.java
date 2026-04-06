@@ -8,6 +8,7 @@ import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import java.util.List;
+import com.sportskiklub.model.Karton;
 
 @Path("/igrac")
 public class IgracResource {
@@ -41,4 +42,33 @@ public class IgracResource {
         }
         return Response.ok().entity(igraci).build();
     }
+
+    @GET
+    @Path("/getIgracByName")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getIgracByName(@QueryParam("name") String name) {
+        List<Igrac> igraci = null;
+        try {
+            igraci = igracService.getIgracByName(name);
+        } catch (IgracException e) {
+            throw new RuntimeException(e);
+        }
+
+        return Response.ok().entity(igraci).build();
+    }
+
+    @GET
+    @Path("/getKartoniByIgracId")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getKartoniByIgracId(@QueryParam("id") Long id) {
+        List<Karton> kartoni = null;
+        try {
+            kartoni = igracService.getKartoniByIgracId(id);
+        } catch (IgracException e) {
+            throw new RuntimeException(e);
+        }
+        return Response.ok().entity(kartoni).build();
+    }
+
+
 }
