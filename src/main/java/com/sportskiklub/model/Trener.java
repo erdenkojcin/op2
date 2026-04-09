@@ -1,8 +1,7 @@
 package com.sportskiklub.model;
 
 import jakarta.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
+
 
 @Entity
 public class Trener {
@@ -14,8 +13,9 @@ public class Trener {
     private String prezime;
     private String specijalnost;
 
-    @ManyToMany(mappedBy = "treneri", fetch = FetchType.LAZY)
-    private List<Tim> timovi = new ArrayList<>();
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "tim_id")
+    private Tim tim;
 
     public Trener(Long id, String ime, String prezime, String specijalnost) {
         this.id = id;
@@ -24,20 +24,39 @@ public class Trener {
         this.specijalnost = specijalnost;
     }
 
-    public Trener() {}
+    public Trener() {
 
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    }
 
-    public String getIme() { return ime; }
-    public void setIme(String ime) { this.ime = ime; }
+    public Long getId() {
+        return id;
+    }
 
-    public String getPrezime() { return prezime; }
-    public void setPrezime(String prezime) { this.prezime = prezime; }
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-    public String getSpecijalnost() { return specijalnost; }
-    public void setSpecijalnost(String specijalnost) { this.specijalnost = specijalnost; }
+    public String getIme() {
+        return ime;
+    }
 
-    public List<Tim> getTimovi() { return timovi; }
-    public void setTimovi(List<Tim> timovi) { this.timovi = timovi; }
+    public void setIme(String ime) {
+        this.ime = ime;
+    }
+
+    public String getPrezime() {
+        return prezime;
+    }
+
+    public void setPrezime(String prezime) {
+        this.prezime = prezime;
+    }
+
+    public String getSpecijalnost() {
+        return specijalnost;
+    }
+
+    public void setSpecijalnost(String specijalnost) {
+        this.specijalnost = specijalnost;
+    }
 }
