@@ -1,7 +1,5 @@
 package com.sportskiklub.model;
 
-import jakarta.persistence.Entity;
-
 import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +16,9 @@ public class Dvorana {
 
     @OneToMany(mappedBy = "dvorana", fetch = FetchType.LAZY)
     private List<Utakmica> utakmice = new ArrayList<>();
+
+    @OneToOne(mappedBy = "maticnaDvorana")
+    private Tim tim;
 
     public Dvorana(Long id, String naziv, String lokacija, int kapacitet, List<Utakmica> utakmice) {
         this.id = id;
@@ -68,6 +69,14 @@ public class Dvorana {
 
     public void setUtakmice(List<Utakmica> utakmice) {
         this.utakmice = utakmice;
+    }
+
+    public Tim getTim() {
+        return tim;
+    }
+
+    public void setTim(Tim tim) {
+        this.tim = tim;
     }
 }
 

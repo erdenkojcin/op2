@@ -17,17 +17,26 @@ public class Tim {
     @JoinColumn(name = "klub_id")
     private SportskiKlub klub;
 
+    @OneToOne
+    @JoinColumn(name = "dvorana_id")
+    private Dvorana maticnaDvorana;
+
     @OneToMany(mappedBy = "tim", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Igrac> igraci = new ArrayList<>();
 
-    @OneToMany(mappedBy = "tim", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+        name = "TIM_TRENER",
+        joinColumns = @JoinColumn(name = "tim_id"),
+        inverseJoinColumns = @JoinColumn(name = "trener_id")
+    )
     private List<Trener> treneri = new ArrayList<>();
 
-    @OneToMany(mappedBy = "tim", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "mojTim", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Utakmica> utakmice = new ArrayList<>();
 
     @OneToMany(mappedBy = "tim", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Oprema> oprema = new ArrayList<>();
+    private List<TimOprema> timOprema = new ArrayList<>();
 
     public Tim(Long id, String naziv, String uzrast) {
         this.id = id;
@@ -87,11 +96,19 @@ public class Tim {
         this.utakmice = utakmice;
     }
 
-    public List<Oprema> getOprema() {
-        return oprema;
+    public List<TimOprema> getTimOprema() {
+        return timOprema;
     }
 
-    public void setOprema(List<Oprema> oprema) {
-        this.oprema = oprema;
+    public void setTimOprema(List<TimOprema> timOprema) {
+        this.timOprema = timOprema;
+    }
+
+    public Dvorana getMaticnaDvorana() {
+        return maticnaDvorana;
+    }
+
+    public void setMaticnaDvorana(Dvorana maticnaDvorana) {
+        this.maticnaDvorana = maticnaDvorana;
     }
 }
