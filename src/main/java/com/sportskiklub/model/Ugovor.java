@@ -1,6 +1,5 @@
 package com.sportskiklub.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 
@@ -17,7 +16,6 @@ public class Ugovor {
     private LocalDate datumIsteka;
     private double plata;
 
-    @JsonIgnore
     @OneToOne
     @JoinColumn(name = "igrac_id")
     private Igrac igrac;
@@ -42,12 +40,4 @@ public class Ugovor {
 
     public double getPlata() { return plata; }
     public void setPlata(double plata) { this.plata = plata; }
-
-    public Igrac getIgrac() {
-        return igrac;
-    }
-
-    public void setIgrac(Igrac igrac) {
-        this.igrac = igrac;
-    }
 }

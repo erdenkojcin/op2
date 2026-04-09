@@ -1,7 +1,5 @@
 package com.sportskiklub.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -27,22 +25,15 @@ public class Igrac {
     private int brojDresa;
     private LocalDate datumRodjenja;
 
-    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "tim_id")
     private Tim tim;
 
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @OneToMany(mappedBy = "igrac", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Karton> kartoni = new ArrayList<>();
 
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @OneToOne(mappedBy = "igrac", cascade = CascadeType.ALL)
     private Ugovor ugovor;
-
-    @JsonIgnore
-    @OneToMany(mappedBy = "igrac", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<IgracUtakmica> utakmice = new ArrayList<>();
 
     public Igrac(Long id, String ime, String prezime, String pozicija, int brojDresa, LocalDate datumRodjenja) {
         this.id = id;
@@ -105,14 +96,6 @@ public class Igrac {
         this.datumRodjenja = datumRodjenja;
     }
 
-    public Ugovor getUgovor() {
-        return ugovor;
-    }
-
-    public void setUgovor(Ugovor ugovor) {
-        this.ugovor = ugovor;
-    }
-
     public List<Karton> getKartoni() {
         return kartoni;
     }
@@ -121,23 +104,15 @@ public class Igrac {
         this.kartoni = kartoni;
     }
 
-    public List<IgracUtakmica> getUtakmice() {
-        return utakmice;
-    }
-
-    public void setUtakmice(List<IgracUtakmica> utakmice) {
-        this.utakmice = utakmice;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (!(o instanceof Igrac igrac)) return false;
-        return brojDresa == igrac.brojDresa && Objects.equals(id, igrac.id) && Objects.equals(ime, igrac.ime) && Objects.equals(prezime, igrac.prezime) && Objects.equals(pozicija, igrac.pozicija) && Objects.equals(datumRodjenja, igrac.datumRodjenja);
+        return brojDresa == igrac.brojDresa && Objects.equals(id, igrac.id) && Objects.equals(ime, igrac.ime) && Objects.equals(prezime, igrac.prezime) && Objects.equals(pozicija, igrac.pozicija) && Objects.equals(datumRodjenja, igrac.datumRodjenja) && Objects.equals(kartoni, igrac.kartoni);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, ime, prezime, pozicija, brojDresa, datumRodjenja);
+        return Objects.hash(id, ime, prezime, pozicija, brojDresa, datumRodjenja, kartoni);
     }
 
     @Override
@@ -148,7 +123,9 @@ public class Igrac {
                 ", prezime='" + prezime + '\'' +
                 ", pozicija='" + pozicija + '\'' +
                 ", brojDresa=" + brojDresa +
-                ", datumRodjenja=" + datumRodjenja + '}';
+                ", datumRodjenja=" + datumRodjenja +
+                ", kartoni=" + kartoni +
+                '}';
     }
 }
 

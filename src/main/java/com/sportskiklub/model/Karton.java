@@ -1,7 +1,7 @@
 package com.sportskiklub.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+
 import java.util.Objects;
 
 
@@ -19,12 +19,10 @@ public class Karton {
     private String tip;
     private String razlog;
 
-    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "igrac_id")
     private Igrac igrac;
 
-    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "utakmica_id")
     private Utakmica utakmica;
@@ -61,22 +59,6 @@ public class Karton {
 
     public void setRazlog(String razlog) {
         this.razlog = razlog;
-    }
-
-    public Igrac getIgrac() {
-        return igrac;
-    }
-
-    public void setIgrac(Igrac igrac) {
-        this.igrac = igrac;
-    }
-
-    public Utakmica getUtakmica() {
-        return utakmica;
-    }
-
-    public void setUtakmica(Utakmica utakmica) {
-        this.utakmica = utakmica;
     }
 
     @Override
