@@ -3,6 +3,7 @@ package com.sportskiklub.resource;
 import com.sportskiklub.exception.IgracException;
 import com.sportskiklub.model.Igrac;
 import com.sportskiklub.service.IgracService;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
@@ -33,7 +34,7 @@ public class IgracResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/getAllIgraci")
-
+    @RolesAllowed("admin")
     public Response getAllIgraci() {
         List<Igrac> igraci = null;
         try {
