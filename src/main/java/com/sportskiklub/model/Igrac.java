@@ -102,8 +102,12 @@ public class Igrac {
         this.brojDresa = brojDresa;
     }
 
-    public String getTimeZone() { return timeZone; }
-    public void setTimeZone(String timeZone) { this.timeZone = timeZone; }
+    public String getTimeZone() {
+        return timeZone;
+    }
+    public void setTimeZone(String timeZone) {
+        this.timeZone = timeZone;
+    }
 
     public LocalDate getDatumRodjenja() {
         return datumRodjenja;
@@ -137,9 +141,13 @@ public class Igrac {
         this.utakmice = utakmice;
     }
 
-    public List<TimeResponse> getTimeResponses() { return timeResponses; }
+    public List<TimeResponse> getTimeResponses() {
+        return timeResponses;
+    }
 
-    public void setTimeResponses(List<TimeResponse> timeResponses) { this.timeResponses = timeResponses; }
+    public void setTimeResponses(List<TimeResponse> timeResponses) {
+        this.timeResponses = timeResponses;
+    }
 
     @Override
     public boolean equals(Object o) {
