@@ -1,5 +1,7 @@
 package com.sportskiklub.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -8,7 +10,7 @@ import java.util.Objects;
 
 @Entity
 @NamedQuery(name = Igrac.GET_ALL_IGRACI, query = "select i from Igrac i")
-@NamedQuery(name = Igrac.GET_IGRAC_BY_NAME, query = "select i from Igrac i where i.ime = :imeI")
+@NamedQuery(name = Igrac.GET_IGRAC_BY_NAME, query = "select i.id, i.ime from Igrac i where i.ime = :imeI")
 
 public class Igrac {
 
@@ -24,16 +26,28 @@ public class Igrac {
     private String pozicija;
     private int brojDresa;
     private LocalDate datumRodjenja;
+    private String timeZone;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "tim_id")
     private Tim tim;
 
+//    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @OneToMany(mappedBy = "igrac", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Karton> kartoni = new ArrayList<>();
 
+//    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @OneToOne(mappedBy = "igrac", cascade = CascadeType.ALL)
     private Ugovor ugovor;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "igrac", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<IgracUtakmica> utakmice = new ArrayList<>();
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "igrac", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<TimeResponse> timeResponses = new ArrayList<>();
 
     public Igrac(Long id, String ime, String prezime, String pozicija, int brojDresa, LocalDate datumRodjenja) {
         this.id = id;
@@ -88,12 +102,27 @@ public class Igrac {
         this.brojDresa = brojDresa;
     }
 
+    public String getTimeZone() {
+        return timeZone;
+    }
+    public void setTimeZone(String timeZone) {
+        this.timeZone = timeZone;
+    }
+
     public LocalDate getDatumRodjenja() {
         return datumRodjenja;
     }
 
     public void setDatumRodjenja(LocalDate datumRodjenja) {
         this.datumRodjenja = datumRodjenja;
+    }
+
+    public Ugovor getUgovor() {
+        return ugovor;
+    }
+
+    public void setUgovor(Ugovor ugovor) {
+        this.ugovor = ugovor;
     }
 
     public List<Karton> getKartoni() {
@@ -104,15 +133,31 @@ public class Igrac {
         this.kartoni = kartoni;
     }
 
+    public List<IgracUtakmica> getUtakmice() {
+        return utakmice;
+    }
+
+    public void setUtakmice(List<IgracUtakmica> utakmice) {
+        this.utakmice = utakmice;
+    }
+
+    public List<TimeResponse> getTimeResponses() {
+        return timeResponses;
+    }
+
+    public void setTimeResponses(List<TimeResponse> timeResponses) {
+        this.timeResponses = timeResponses;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (!(o instanceof Igrac igrac)) return false;
-        return brojDresa == igrac.brojDresa && Objects.equals(id, igrac.id) && Objects.equals(ime, igrac.ime) && Objects.equals(prezime, igrac.prezime) && Objects.equals(pozicija, igrac.pozicija) && Objects.equals(datumRodjenja, igrac.datumRodjenja) && Objects.equals(kartoni, igrac.kartoni);
+        return brojDresa == igrac.brojDresa && Objects.equals(id, igrac.id) && Objects.equals(ime, igrac.ime) && Objects.equals(prezime, igrac.prezime) && Objects.equals(pozicija, igrac.pozicija) && Objects.equals(datumRodjenja, igrac.datumRodjenja);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, ime, prezime, pozicija, brojDresa, datumRodjenja, kartoni);
+        return Objects.hash(id, ime, prezime, pozicija, brojDresa, datumRodjenja);
     }
 
     @Override
@@ -123,9 +168,7 @@ public class Igrac {
                 ", prezime='" + prezime + '\'' +
                 ", pozicija='" + pozicija + '\'' +
                 ", brojDresa=" + brojDresa +
-                ", datumRodjenja=" + datumRodjenja +
-                ", kartoni=" + kartoni +
-                '}';
+                ", datumRodjenja=" + datumRodjenja + '}';
     }
 }
 

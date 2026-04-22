@@ -1,7 +1,5 @@
 package com.sportskiklub.model;
 
-import jakarta.persistence.Entity;
-
 import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -18,8 +16,8 @@ public class Utakmica {
     private String rezultat;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "tim_id")
-    private Tim tim;
+    @JoinColumn(name = "moj_tim_id")
+    private Tim mojTim;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "dvorana_id")
@@ -28,65 +26,41 @@ public class Utakmica {
     @OneToMany(mappedBy = "utakmica", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Karton> kartoni = new ArrayList<>();
 
-    public Utakmica(Long id, Tim tim, String protivnik, Dvorana dvorana, LocalDate datum, String rezultat) {
+    @OneToMany(mappedBy = "utakmica", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<IgracUtakmica> igraci = new ArrayList<>();
+
+    public Utakmica() {}
+
+    public Utakmica(Long id, Tim mojTim, String protivnik, Dvorana dvorana, LocalDate datum, String rezultat) {
         this.id = id;
-        this.tim = tim;
+        this.mojTim = mojTim;
         this.protivnik = protivnik;
         this.dvorana = dvorana;
         this.datum = datum;
         this.rezultat = rezultat;
     }
 
-    public Utakmica() {
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-    }
+    public Tim getMojTim() { return mojTim; }
+    public void setMojTim(Tim mojTim) { this.mojTim = mojTim; }
 
-    public Long getId() {
-        return id;
-    }
+    public String getProtivnik() { return protivnik; }
+    public void setProtivnik(String protivnik) { this.protivnik = protivnik; }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    public Dvorana getDvorana() { return dvorana; }
+    public void setDvorana(Dvorana dvorana) { this.dvorana = dvorana; }
 
-    public Tim getTim() {
-        return tim;
-    }
+    public LocalDate getDatum() { return datum; }
+    public void setDatum(LocalDate datum) { this.datum = datum; }
 
-    public void setTim(Tim tim) {
-        this.tim = tim;
-    }
+    public String getRezultat() { return rezultat; }
+    public void setRezultat(String rezultat) { this.rezultat = rezultat; }
 
-    public String getProtivnik() {
-        return protivnik;
-    }
+    public List<Karton> getKartoni() { return kartoni; }
+    public void setKartoni(List<Karton> kartoni) { this.kartoni = kartoni; }
 
-    public void setProtivnik(String protivnik) {
-        this.protivnik = protivnik;
-    }
-
-    public Dvorana getDvorana() {
-        return dvorana;
-    }
-
-    public void setDvorana(Dvorana dvorana) {
-        this.dvorana = dvorana;
-    }
-
-    public LocalDate getDatum() {
-        return datum;
-    }
-
-    public void setDatum(LocalDate datum) {
-        this.datum = datum;
-    }
-
-    public String getRezultat() {
-        return rezultat;
-    }
-
-    public void setRezultat(String rezultat) {
-        this.rezultat = rezultat;
-    }
-
+    public List<IgracUtakmica> getIgraci() { return igraci; }
+    public void setIgraci(List<IgracUtakmica> igraci) { this.igraci = igraci; }
 }
