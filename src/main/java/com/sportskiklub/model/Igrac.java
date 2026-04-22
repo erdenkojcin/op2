@@ -10,7 +10,7 @@ import java.util.Objects;
 
 @Entity
 @NamedQuery(name = Igrac.GET_ALL_IGRACI, query = "select i from Igrac i")
-@NamedQuery(name = Igrac.GET_IGRAC_BY_NAME, query = "select i from Igrac i where i.ime = :imeI")
+@NamedQuery(name = Igrac.GET_IGRAC_BY_NAME, query = "select i.id, i.ime from Igrac i where i.ime = :imeI")
 
 public class Igrac {
 
@@ -26,23 +26,28 @@ public class Igrac {
     private String pozicija;
     private int brojDresa;
     private LocalDate datumRodjenja;
+    private String timeZone;
 
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "tim_id")
     private Tim tim;
 
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+//    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @OneToMany(mappedBy = "igrac", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Karton> kartoni = new ArrayList<>();
 
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+//    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @OneToOne(mappedBy = "igrac", cascade = CascadeType.ALL)
     private Ugovor ugovor;
 
     @JsonIgnore
     @OneToMany(mappedBy = "igrac", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<IgracUtakmica> utakmice = new ArrayList<>();
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "igrac", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<TimeResponse> timeResponses = new ArrayList<>();
 
     public Igrac(Long id, String ime, String prezime, String pozicija, int brojDresa, LocalDate datumRodjenja) {
         this.id = id;
@@ -97,6 +102,9 @@ public class Igrac {
         this.brojDresa = brojDresa;
     }
 
+    public String getTimeZone() { return timeZone; }
+    public void setTimeZone(String timeZone) { this.timeZone = timeZone; }
+
     public LocalDate getDatumRodjenja() {
         return datumRodjenja;
     }
@@ -128,6 +136,10 @@ public class Igrac {
     public void setUtakmice(List<IgracUtakmica> utakmice) {
         this.utakmice = utakmice;
     }
+
+    public List<TimeResponse> getTimeResponses() { return timeResponses; }
+
+    public void setTimeResponses(List<TimeResponse> timeResponses) { this.timeResponses = timeResponses; }
 
     @Override
     public boolean equals(Object o) {
