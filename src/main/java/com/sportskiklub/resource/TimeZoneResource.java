@@ -31,10 +31,8 @@ public class TimeZoneResource {
     @Path("/current")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getCurrentTimeZone() {
-        // prvo uzimamo ip adresu
         String ip = ipClient.getPublicIp();
         System.out.println("ip adresa je: " + ip);
-        // pa sa tom ip uzimamo vremensku zonu
         TimeResponse timeResponse = timeZoneClient.getTimeByIp(ip);
         System.out.println(timeResponse);
         return Response.ok().entity(timeResponse).build();
@@ -50,15 +48,11 @@ public class TimeZoneResource {
             if (igrac == null) {
                 throw new TimeZoneException("Igrac sa id-jem " + igracId + " nije pronadjen");
             }
-            // uzimamo ip
             String ip = ipClient.getPublicIp();
             System.out.println("ip: " + ip);
-            // uzimamo vremensku zonu
             TimeResponse timeResponse = timeZoneClient.getTimeByIp(ip);
-            // povezujemo sa igracem
             timeResponse.setIgrac(igrac);
             em.persist(timeResponse);
-            // updateujemo igraca sa vremenskom zonom
             igrac.setTimeZone(timeResponse.getTimeZone());
             em.merge(igrac);
             System.out.println(timeResponse);
