@@ -10,7 +10,7 @@ import java.util.Objects;
 
 @Entity
 @NamedQuery(name = Igrac.GET_ALL_IGRACI, query = "select i from Igrac i")
-@NamedQuery(name = Igrac.GET_IGRAC_BY_NAME, query = "select i.id, i.ime from Igrac i where i.ime = :imeI")
+@NamedQuery(name = Igrac.GET_IGRAC_BY_NAME, query = "select i from Igrac i where i.ime = :imeI")
 
 public class Igrac {
 

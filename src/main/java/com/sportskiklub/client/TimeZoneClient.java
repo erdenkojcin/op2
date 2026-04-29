@@ -6,6 +6,8 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.QueryParam;
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 
+
+//@RegisterRestClient(configKey = "NAZIV")
 @RegisterRestClient(configKey = "timezone-api")
 public interface TimeZoneClient {
     @GET
