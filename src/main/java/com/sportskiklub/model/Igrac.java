@@ -49,6 +49,10 @@ public class Igrac {
     @OneToMany(mappedBy = "igrac", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<TimeResponse> timeResponses = new ArrayList<>();
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "igrac", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<CurrencyResponse> currencyResponses = new ArrayList<>();
+
     public Igrac(Long id, String ime, String prezime, String pozicija, int brojDresa, LocalDate datumRodjenja) {
         this.id = id;
         this.ime = ime;
@@ -147,6 +151,14 @@ public class Igrac {
 
     public void setTimeResponses(List<TimeResponse> timeResponses) {
         this.timeResponses = timeResponses;
+    }
+
+    public List<CurrencyResponse> getCurrencyResponses() {
+        return currencyResponses;
+    }
+
+    public void setCurrencyResponses(List<CurrencyResponse> currencyResponses) {
+        this.currencyResponses = currencyResponses;
     }
 
     @Override
